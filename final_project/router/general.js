@@ -94,20 +94,20 @@ public_users.get('/', async (req, res) => {
 // Task 11
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', async (req, res) => {
-  const myPromise1 = new Promise((resolve, reject) => {
+  const isbn = req.params.isbn;
+  const result = await new Promise((resolve, reject) => {
     setTimeout(() => {
-      const isbn = req.params.isbn;
       resolve(JSON.stringify(books[isbn], null, 4));
     }, 3000);
   });
 
   try {
-    const result = await myPromise1;
     res.send(result);
   } catch (error) {
     res.send("Error occurred while retrieving book details.");
   }
 });
+
 
 
 // Task 12
