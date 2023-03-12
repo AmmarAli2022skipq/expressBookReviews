@@ -63,28 +63,18 @@ public_users.get('/author/:author',function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  let ans = []
-  for(const [key, values] of Object.entries(books)){
-      const book = Object.entries(values);
-      for(let i = 0; i < book.length ; i++){
-          if(book[i][0] == 'title' && book[i][1] == req.params.title){
-              ans.push(books[key]);
-          }
-      }
-  }
-  if(ans.length == 0){
-      return res.status(300).json({message: "Title not found"});
+public_users.get('/title/:title', (req, res) => {
+  const ans = Object.values(books).filter(book => book.title === req.params.title);
+  if (ans.length === 0) {
+    return res.status(300).json({ message: "Title not found" });
   }
   res.send(ans);
 });
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  const ISBN = req.params.isbn;
-  res.send(books[ISBN].reviews)
+public_users.get('/review/:isbn', (req, res) => {
+  const { isbn } = req.params;
+  res.send(books[isbn]?.reviews || []);
 });
 
 // Task 10 
